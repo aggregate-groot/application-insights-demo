@@ -1,2 +1,1 @@
-# application-insights-demo
-Application Insights Demo
+# Application Insights Demo
