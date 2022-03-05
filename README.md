@@ -6,3 +6,8 @@
 2. [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 3. [Azure Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
 4. [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/)
+
+## Reference
+
+- [Overview](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
+- [ASP.NET Core](https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-core)

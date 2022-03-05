@@ -39,6 +39,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api
         {
             services.AddControllers();
             services.AddOpenApi();
+            services.AddApplicationInsightsTelemetry();
         }
 
         /// <summary>
