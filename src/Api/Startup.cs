@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using AggregateGroot.ApplicationInsightsDemo.Api.Middleware;
+using AggregateGroot.ApplicationInsightsDemo.Api.Middleware.Telemetry;
 
 namespace AggregateGroot.ApplicationInsightsDemo.Api
 {
@@ -39,7 +40,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api
         {
             services.AddControllers();
             services.AddOpenApi();
-            services.AddApplicationInsightsTelemetry();
+            services.AddTelemetry();
         }
 
         /// <summary>
