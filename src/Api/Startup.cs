@@ -41,6 +41,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api
             services.AddControllers();
             services.AddOpenApi();
             services.AddTelemetry();
+            services.AddCosmos(Configuration);
         }
 
         /// <summary>
