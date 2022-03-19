@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 
 using AggregateGroot.ApplicationInsightsDemo.Api.Models;
 
@@ -11,6 +13,14 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
     [ApiController]
     public class WhiskiesController : ControllerBase
     {
+        /// <summary>
+        /// Creates a new instance of the <see cref="WhiskiesController"/> class.
+        /// </summary>
+        public WhiskiesController(CosmosClient cosmosClient)
+        {
+            _cosmosClient = cosmosClient;
+        }
+
         /// <summary>
         /// Lists the available whiskies.
         /// </summary>
@@ -27,9 +37,14 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
         /// Required whisky to add.
         /// </param>
         [HttpPost]
-        public IActionResult Add(WhiskyModel whisky)
+        public async Task<IActionResult> Add(WhiskyModel whisky)
         {
+            Container container = _cosmosClient.GetContainer("ApplicationInsightsDemo", "Whiskies");
+            await container.CreateItemAsync(whisky);
+
             return Ok();
         }
+
+        private readonly CosmosClient _cosmosClient;
     }
 }

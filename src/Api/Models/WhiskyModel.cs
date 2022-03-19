@@ -1,4 +1,6 @@
-﻿namespace AggregateGroot.ApplicationInsightsDemo.Api.Models
+﻿using Newtonsoft.Json;
+
+namespace AggregateGroot.ApplicationInsightsDemo.Api.Models
 {
     /// <summary>
     /// Represents a whisky.
@@ -13,6 +15,12 @@
             Name = string.Empty;
             Brand = string.Empty;
         }
+
+        /// <summary>
+        /// Gets the unique identifier for the whisky.
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id => $"{Brand}-{Name}";
 
         /// <summary>
         /// Gets or initializes the name of the whisky.
