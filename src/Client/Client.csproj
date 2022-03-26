@@ -1,10 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net6.0</TargetFramework>
-        <AssemblyName>AggregateGroot.ApplicationInsightsDemo.Api</AssemblyName>
-        <RootNamespace>AggregateGroot.ApplicationInsightsDemo.Api</RootNamespace>
+        <AssemblyName>aic</AssemblyName>
+        <RootNamespace>AggregateGroot.ApplicationInsightsDemo.Client</RootNamespace>
+        <FileVersion>$(AssemblyVersion)</FileVersion>
+        <PackageId>AggregateGroot.ApplicationInsightsDemo.Client</PackageId>
+        <PackAsTool>true</PackAsTool>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <ToolCommandName>aic</ToolCommandName>
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.1" />
+      <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Api\Api.csproj" />
+    </ItemGroup>
 
 </Project>
