@@ -15,5 +15,13 @@ namespace AggregateGroot.ApplicationInsightsDemo.Client
         /// Required whisky to add.
         /// </param>
         Task AddWhiskyAsync(WhiskyModel whisky);
+
+        /// <summary>
+        /// Adds a new rating for a whisky.
+        /// </summary>
+        /// <param name="rating">
+        /// Required rating to add.
+        /// </param>
+        Task AddRatingAsync(RatingModel rating);
     }
 }

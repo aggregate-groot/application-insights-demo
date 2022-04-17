@@ -30,6 +30,13 @@ namespace AggregateGroot.ApplicationInsightsDemo.Client
             await _httpClient.PostAsJsonAsync("api/whiskies", whisky);
         }
 
+        
+        /// <inheritdoc />
+        public async Task AddRatingAsync(RatingModel rating)
+        {
+            await _httpClient.PostAsJsonAsync("api/ratings", rating);
+        }
+
         private readonly HttpClient _httpClient;
     }
 }

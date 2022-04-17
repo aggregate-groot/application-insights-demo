@@ -53,3 +53,17 @@ resource whiskiesContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
       }
   }
 }
+
+resource ratingsContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-10-15' = {
+  name: '${demoDatabase.name}/Ratings'
+  properties: {
+      resource: {
+          id: 'Ratings'
+          partitionKey: {
+              paths: [
+                  '/whiskyId'
+              ]
+          }
+      }
+  }
+}
