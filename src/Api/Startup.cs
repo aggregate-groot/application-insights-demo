@@ -61,7 +61,6 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api
                 app.UseOpenApi();
             }
 
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

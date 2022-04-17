@@ -1,8 +1,9 @@
 ﻿using System;
-using AggregateGroot.ApplicationInsightsDemo.Client.Commands;
 
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
+
+using AggregateGroot.ApplicationInsightsDemo.Client.Commands;
 
 namespace AggregateGroot.ApplicationInsightsDemo.Client
 {
@@ -13,7 +14,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Client
             ServiceCollection services = new ServiceCollection();
             services.AddHttpClient<IApiClient, HttpApiClient>(client =>
             {
-                client.BaseAddress = new Uri("https://localhost:8433/");
+                client.BaseAddress = new Uri("http://localhost:8400/");
             });
             services.AddSingleton<IConsole>(PhysicalConsole.Singleton);
 
