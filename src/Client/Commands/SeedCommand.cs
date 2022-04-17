@@ -16,7 +16,9 @@ namespace AggregateGroot.ApplicationInsightsDemo.Client.Commands
         /// <summary>
         /// Creates a new instance of the <see cref="SeedCommand"/> class.
         /// </summary>
-        /// <param name="console"></param>
+        /// <param name="console">
+        /// Required type used to interact with the console.
+        /// </param>
         /// <param name="apiClient">
         /// Required client used to interact with the API.
         /// </param>

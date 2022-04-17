@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+
 using AggregateGroot.ApplicationInsightsDemo.Api.Models;
 
 namespace AggregateGroot.ApplicationInsightsDemo.Client

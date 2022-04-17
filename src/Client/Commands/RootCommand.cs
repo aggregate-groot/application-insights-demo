@@ -7,7 +7,9 @@ namespace AggregateGroot.ApplicationInsightsDemo.Client.Commands
     /// <summary>
     /// Represents the root command for the CLI.
     /// </summary>
-    [Subcommand(typeof(SeedCommand))]
+    [Subcommand(
+        typeof(SeedCommand),
+        typeof(RunSimulationCommand))]
     public class RootCommand
     {
         /// <summary>
