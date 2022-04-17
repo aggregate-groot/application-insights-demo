@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 
 using AggregateGroot.ApplicationInsightsDemo.Api.Models;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
 {
@@ -17,9 +20,10 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
         /// <summary>
         /// Creates a new instance of the <see cref="RatingsController"/> class.
         /// </summary>
-        public RatingsController(CosmosClient cosmosClient)
+        public RatingsController(CosmosClient cosmosClient, TelemetryClient telemetryClient)
         {
             _cosmosClient = cosmosClient;
+            _telemetryClient = telemetryClient;
         }
 
         /// <summary>
@@ -33,13 +37,27 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
         {
             int randomDelay = new System.Random().Next(0, 3000);
             await Task.Delay(randomDelay);
+            
+            using (var operation = _telemetryClient.StartOperation<DependencyTelemetry>("Create Ratings Document"))
+            {
+                operation.Telemetry.Type = "CosmosDB";
+                
+                Container container = _cosmosClient.GetContainer("ApplicationInsightsDemo", "Ratings");
+                await container.CreateItemAsync(rating);
+            }
 
-            Container container = _cosmosClient.GetContainer("ApplicationInsightsDemo", "Ratings");
-            await container.CreateItemAsync(rating);
+            _telemetryClient.TrackEvent("Rating Added", new Dictionary<string, string>
+            {
+                { "Rating", rating.Value.ToString() },
+                { "WhiskyId", rating.WhiskyId }
+            });
+
+            _telemetryClient.TrackMetric("Whisky Rating", rating.Value);
 
             return Ok();
         }
 
         private readonly CosmosClient _cosmosClient;
+        private readonly TelemetryClient _telemetryClient;
     }
 }
