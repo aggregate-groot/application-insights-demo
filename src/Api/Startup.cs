@@ -42,6 +42,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api
             services.AddOpenApi();
             services.AddTelemetry();
             services.AddCosmos(Configuration);
+            services.AddAzureServiceBus(Configuration);
         }
 
         /// <summary>

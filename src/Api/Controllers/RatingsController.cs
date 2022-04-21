@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
-
-using AggregateGroot.ApplicationInsightsDemo.Api.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
+
+using AggregateGroot.ApplicationInsightsDemo.Api.Models;
 
 namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
 {
@@ -20,10 +22,14 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
         /// <summary>
         /// Creates a new instance of the <see cref="RatingsController"/> class.
         /// </summary>
-        public RatingsController(CosmosClient cosmosClient, TelemetryClient telemetryClient)
+        public RatingsController(
+            CosmosClient cosmosClient, 
+            TelemetryClient telemetryClient,
+            ServiceBusClient serviceBusClient)
         {
             _cosmosClient = cosmosClient;
             _telemetryClient = telemetryClient;
+            _serviceBusClient = serviceBusClient;
         }
 
         /// <summary>
@@ -46,18 +52,58 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Controllers
                 await container.CreateItemAsync(rating);
             }
 
+            TrackEvents(rating);
+
+            TrackMetrics(rating);
+
+            await PublishMessageAsync(rating);
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Tracks the custom metrics to Application Insights.
+        /// </summary>
+        /// <param name="rating">
+        /// Required rating containing the values to use for the metrics.
+        /// </param>
+        private void TrackMetrics(RatingModel rating)
+        {
+            _telemetryClient.TrackMetric("Whisky Rating", rating.Value);
+        }
+
+        /// <summary>
+        /// Tracks the custom events to Application Insights.
+        /// </summary>
+        /// <param name="rating">
+        /// Required rating containing the event data.
+        /// </param>
+        private void TrackEvents(RatingModel rating)
+        {
             _telemetryClient.TrackEvent("Rating Added", new Dictionary<string, string>
             {
                 { "Rating", rating.Value.ToString() },
                 { "WhiskyId", rating.WhiskyId }
             });
+        }
 
-            _telemetryClient.TrackMetric("Whisky Rating", rating.Value);
+        /// <summary>
+        /// Publishes a message to the service bus indicating that a rating has
+        /// been submitted.
+        /// </summary>
+        /// <param name="rating">
+        /// Required rating containing the data to use in the service bus message.
+        /// </param>
+        private Task PublishMessageAsync(RatingModel rating)
+        {
+            ServiceBusSender? sender = _serviceBusClient.CreateSender("notify-rating");
+            ServiceBusMessage message = new(JsonSerializer.Serialize(rating));
 
-            return Ok();
+            return sender.SendMessageAsync(message);
         }
 
         private readonly CosmosClient _cosmosClient;
         private readonly TelemetryClient _telemetryClient;
+        private readonly ServiceBusClient _serviceBusClient;
     }
 }

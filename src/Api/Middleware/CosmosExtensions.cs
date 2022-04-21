@@ -21,7 +21,7 @@ namespace AggregateGroot.ApplicationInsightsDemo.Api.Middleware
         /// Required configuration containing the information for connecting to Cosmos DB.
         /// </param>
         /// <returns>
-        /// The provided <paramref name="services"/> with Cosmos DB support added..
+        /// The provided <paramref name="services"/> with Cosmos DB support added.
         /// </returns>
         public static IServiceCollection AddCosmos(
             this IServiceCollection services,
