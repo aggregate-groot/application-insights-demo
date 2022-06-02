@@ -7,6 +7,37 @@
 3. [Azure Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/install)
 4. [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/)
 
+## Setup
+
+Login in to your Azure account and set the default subscription for the demo deployment target.
+
+```
+    az login
+    az account set --subscription <subscription-id>
+```
+
+Deploy the Azure resources required for the demo by navigating to the **tasks** directory and
+running the **deploy.sh** script.
+
+Create a new user secrets file with the following contents:
+
+```json
+{
+    "ApplicationInsights": {
+        "InstrumentationKey": "<your-app-insights-instrumentation-key>"
+    },
+    "Azure": {
+        "Cosmos": {
+            "Endpoint": "https://<your-cosmos-account-name>.documents.azure.com:443/",
+            "Key": "<your-cosmos-account-key>"
+        },
+        "ServiceBus": {
+            "ConnectionString": "Endpoint=sb://<your-service-bus-namespace>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<your-root-managed-access-key>"
+        }
+    } 
+}
+```
+
 ## Kusto Queries
 
 ### Request Density per Second
